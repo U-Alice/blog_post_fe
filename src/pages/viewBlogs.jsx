@@ -107,7 +107,7 @@ export default function ViewBook() {
                     </p>
                   </div>
                   <div className="flex justify-end mt-2">
-                    <UpdateBlog blog={item} />
+                    <UpdateBlog blog={item} getData={getData}/>
                     {deleteRecord(item.id)}
                   </div>
                 </div>

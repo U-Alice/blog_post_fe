@@ -15,7 +15,7 @@ import Button from "./button";
 import useCustomDisclosure from "../hooks/useCustomDisclosure";
 import api from "../utils/api";
 
-export default function UpdateBlog({ blog }) {
+export default function UpdateBlog({ blog, getData }) {
   const { opened, open, close } = useCustomDisclosure();
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ export default function UpdateBlog({ blog }) {
       );
 
       notification.success({ message: "Blog updated successfully!" });
-      navigate("/viewBlogs");
+      getData()
     } catch (err) {
       notification.error({
         message: err.response?.data?.message || "Error occurred!",

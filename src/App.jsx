@@ -18,7 +18,7 @@ function App() {
             <Route path="/" element={<Login />}></Route>
             <Route path="/signup" element={<SignUp />}></Route>
             <Route path="/viewBlogs" element={<ViewBook />}></Route>
-            <Route path="/blog" element={<ViewSingleBlog />}></Route>
+            <Route path="/blog/:id" element={<ViewSingleBlog />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </AuthProvider>

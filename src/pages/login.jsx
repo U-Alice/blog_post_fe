@@ -18,7 +18,7 @@ import useAuth from "../context/authContext";
 
 export default function Login() {
   const [data, setData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -26,7 +26,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    login(data.email, data.password);
+    login(data.username, data.password);
  };
 
   return (
@@ -54,11 +54,11 @@ export default function Login() {
           <form className="w-[70%] flex flex-col gap-8" onSubmit={handleSubmit}>
             <Wrapper
               label="Email"
-              name="email"
+              name="username"
               required={true}
-              handleChange={(e) => setData({ ...data, email: e.target.value })}
+              handleChange={(e) => setData({ ...data, username: e.target.value })}
               placeholder="Enter your email"
-              value={data.email}
+              value={data.username}
               icon={
                 <AiOutlineUser className="text-darkb text-lg font-extrabold" />
               }

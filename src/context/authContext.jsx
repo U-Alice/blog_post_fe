@@ -1,10 +1,9 @@
 import React, { createContext, ReactNode, useContext, useEffect } from "react";
 import useStateCallback from "../hooks/useStateCallback";
 import { useLocation, useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
 import axios from 'axios';
 import {notification} from 'antd';
-
+import Cookies from "js-cookie";
 const authContextDefaultValues = {
   user: null,
   login: (data) => {},
@@ -32,30 +31,31 @@ export function AuthProvider({ children }) {
   
   const login = async (email, password) => {
     const api = axios
-      .post("http://localhost:8000/api/v1/auth/login", {
-        email: email,
+      .post("http://localhost:9000/api/v1/auth/login", {
+        username: email,
         password: password,
       })
       .then(({ data }) => {
-        Cookies.set("userName", data.data.user.userName, {
+        console.log(data);
+        // Cookies.set("userName", data.data.user.userName, {
+        //   expires: new Date(Date.now() + 9999999),
+        //   httpOnly: false,
+        // });
+        Cookies.set("accessToken", data.data.accessToken, {
           expires: new Date(Date.now() + 9999999),
           httpOnly: false,
         });
-        Cookies.set("accessToken", data.data.token, {
-          expires: new Date(Date.now() + 9999999),
-          httpOnly: false,
-        });
-        Cookies.set("currentUser", data.data.user.id, {
-          expires: new Date(Date.now() + 9999999),
-          httpOnly: false,
-        });
+        // Cookies.set("currentUser", data.data.user.id, {
+        //   expires: new Date(Date.now() + 9999999),
+        //   httpOnly: false,
+        // });
         notification.success({ message: "Login Successful!" });
-        navigate("/viewBooks");
+        navigate("/viewBlogs");
         setUser(data.user);
       })
       .catch((err) => {
         notification.error({
-          message: err.response.data.message || "Invalid Credentials!",
+          message: err.response.data?.message || "Invalid Credentials!",
         });
       });
   };

@@ -1,130 +1,58 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import Header from "../components/dashboardHeader";
 import image from "../assets/login.jpg";
 import Sidebar from "../components/nav";
-import Table from "../components/table";
 import axios from "axios";
 import Cookies from "js-cookie";
-import PaginatedTable from "../components/PaginatedTable";
-import UpdateBook from "../components/updateBook";
 import { IconButton, Tooltip } from "@material-tailwind/react";
 import { BiSolidTrash } from "react-icons/bi";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/button";
-
+import CreateBlog from "../components/createBlog";
 
 export default function ViewBook() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
-  const headers = [
-    "Id",
-    "Name",
-    "Author",
-    "Publisher",
-    "Publication Year",
-    "Subject"
-  ];
-
   const getData = async () => {
-    const api = await fetch("http://localhost:8000/api/v1/Books/getAll", {
+    const api = await fetch("http://localhost:9000/api/v1/posts", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + Cookies.get("accessToken"),
       },
     });
     let data = await api.json();
-    let Books = await data.data;
-    setData(Books);
-    console.log(Books);
+    let blogs = await data.data;
+    setData(blogs);
+    console.log(blogs);
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-  const updateRecord = (Book) => {
-    return <UpdateBook Book={Book} />;
-  };
-  const posts = [
-    {
-      title:
-        "The Akagera national park of Rwanda is one of this year’s most visited parks in East Africa",
-      author: {
-        name: "name",
-      },
-      content:
-        "To set up and configure their livestreaming equipment for optimal results.",
-      date: "12-02-2020",
-      image: image,
-    },
-    {
-      title:
-        "The Akagera national park of Rwanda is one of this year’s most visited parks in East Africa",
-      author: {
-        name: "UMUGWANEZA Alice",
-      },
-      content:
-        "To set up and configure their livestreaming equipment for optimal results.",
-      date: "12-02-2020",
-      image: image,
-    },
-    {
-      title:
-        "The Akagera national park of Rwanda is one of this year’s most visited parks in East Africa",
-      author: {
-        name: "UMUGWANEZA Alice",
-      },
-      content:
-        "To set up and configure their livestreaming equipment for optimal results.",
-      date: "12-02-2020",
-      image: image,
-    },
-    {
-      title:
-        "The Akagera national park of Rwanda is one of this year’s most visited parks in East Africa",
-      author: {
-        name: "UMUGWANEZA Alice",
-      },
-      content:
-        "To set up and configure their livestreaming equipment for optimal results.",
-      date: "12-02-2020",
-      image: image,
-    },
-    {
-      title:
-        "The Akagera national park of Rwanda is one of this year’s most visited parks in East Africa",
-      author: {
-        name: "UMUGWANEZA Alice",
-      },
-      content:
-        "To set up and configure their livestreaming equipment for optimal results.",
-      date: "12-02-2020",
-      image: image,
-    },
-  ];
   const deleteRecord = (id) => {
     const sendRequest = async () => {
-      // setLoading(true);
       const api = await axios
-        .delete(`http://localhost:8000/api/v1/Books/deleteBook/${id}`,{headers: {
-          Authorization: "Bearer " + Cookies.get("accessToken"),
-        },})
+        .delete(
+          `http://localhost:9000/api/v1/posts/${id}`,
+          {
+            headers: {
+              Authorization: "Bearer " + Cookies.get("accessToken"),
+            },
+          }
+        )
         .then(({ data }) => {
           notification.success({ message: data.message });
-          navigate("/viewBooks");
+          getData();
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           notification.error({
             message: "Error Occurred!",
           });
         });
     };
-
-    
 
     return (
       <Tooltip content="Delete Book">
@@ -138,50 +66,73 @@ export default function ViewBook() {
     );
   };
 
+  const posts = [
+    {
+      title:
+        "The Akagera national park of Rwanda is one of this year’s most visited parks in East Africa",
+      author: {
+        name: "UMUGWANEZA Alice",
+      },
+      content:
+        "To set up and configure their livestreaming equipment for optimal results.",
+      date: "12-02-2020",
+      image: image,
+    },
+    // Add more posts as needed
+  ];
+
   return (
-    <div className=" h-screen w-full font-quicksand">
-      <div className="w-full h-64 bg-blue p-2">
+    <div className="min-h-screen w-full font-quicksand bg-gray-100">
+      <div className="w-full bg-blue p-2 h-32 md:h-72 ">
         <Sidebar />
       </div>
-      <div className="h-full w-full flex justify-center">
-        <div className="w-[60%] mt-[-12%]">
-          <div className="flex justify-between">
-            <div className="flex gap-2 items-center">
-              <img src={logo} alt="" className="h-24 w-24" />
-              <p className="font-bold">QtBlog</p>
+      <div className="flex flex-col items-center mt-4">
+        <div className="w-full md:w-[80%] lg:w-[60%] mt-[-8%] md:mt-[-12%] px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+            <div className="flex gap-2 items-center mb-4 md:mb-0">
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-16 md:h-24 w-16 md:w-24"
+              />
+              <p className="font-bold text-xl md:text-2xl">QtBlog</p>
             </div>
-            <div className="flex items-center">
-              <Button content={"Add blog"} className={"p-4"}></Button>
+            <div>
+              <CreateBlog />
             </div>
           </div>
-          <div className="bg-white rounded-lg flex flex-col w-full mt-10 p-3 gap-4 ">
-            {posts.map((item) => {
-              return (
-                <div className="flex w-full gap-6 bg-white border-b pb-4 border-[#F2F2F7]">
-                  <div className="w-[25%] ">
-                    <img
-                      src={item.image}
-                      alt=""
-                      className=" h-48 w-full rounded-l-md"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-between py-4">
-                    <h3 className="font-bold">{item.title}</h3>
-                    <p className="text-[#696778] text-sm">{item.content}</p>
-                    <div className="flex justify-between">
-                      {/* <img src={item.image} alt="" /> */}
-                      <div className="">
-                        <p className="text-xs text-[]">Author</p>
-                        <p className="text-brand">{item.author.name}</p>
-                      </div>
-                      <p className="text-[#9795A3] text-sm">
-                        Posted {item.date}
-                      </p>
+          <div className="bg-white rounded-lg flex flex-col w-full mt-6 md:mt-10 p-4 gap-4 shadow-md" >
+            {data.map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-col md:flex-row w-full gap-4 md:gap-6 bg-white border-b pb-4 border-[#F2F2F7]"
+                onClick={()=> navigate(`/blog/${item.id}`)}
+              >
+                <div className="w-full md:w-[25%]">
+                  <img
+                    src={item.image}
+                    alt="Blog Post"
+                    className="w-full h-auto md:h-48 object-cover rounded-md md:rounded-l-md"
+                  />
+                </div>
+                <div className="flex flex-col justify-between py-4 w-full">
+                  <h3 className="font-bold text-lg md:text-xl">{item.title}</h3>
+                  <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                  <div className="flex justify-between mt-4">
+                    <div>
+                      <p className="text-xs text-gray-500">Author</p>
+                      <p className="text-brand">{item.author.name}</p>
                     </div>
+                    <p className="text-[#9795A3] text-xs md:text-sm">
+                      Posted {item.date}
+                    </p>
+                  </div>
+                  <div className="flex justify-end mt-2">
+                    {deleteRecord(item.id)}
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ export default function SignUp() {
         password,
     ) {
         const api = await axios
-            .post("http://localhost:8000/api/v1/users/createAccount", {
+            .post("http://localhost:9000/api/v1/author/register", {
                 firstName,
                 lastName,
                 email,

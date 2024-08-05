@@ -26,10 +26,7 @@ export default function ViewSingleBlog() {
 
   const handleCommentSubmit = async () => {
     try {
-      const response = await api.post(`posts/${id}/comments`, {
-        content: comment
-  
-      });
+      const response = await api.post(`posts/${id}/comments`,comment);
       const newComment = response.data.data;
       setBlog((prevBlog) => ({
         ...prevBlog,
@@ -89,12 +86,12 @@ export default function ViewSingleBlog() {
                 <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
                   <div className="flex items-center mb-2">
                     <img
-                      src={item.image}
+                      src={image}
                       alt="User"
                       className="h-8 w-8 rounded-full"
                     />
-                    <p className="ml-2 text-sm font-semibold">{item.author.name}</p>
-                    <p className="ml-auto text-xs text-gray-400">{item.date}</p>
+                    <p className="ml-2 text-sm font-semibold">{item.author.fullName}</p>
+                    <p className="ml-auto text-xs text-gray-400">Posted : {item.createdAt}</p>
                   </div>
                   <p className="text-sm text-gray-600 pl-10 bg-gray-50 p-4 rounded-md">
                     {item.content}

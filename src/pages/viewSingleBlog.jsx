@@ -47,11 +47,11 @@ export default function ViewSingleBlog() {
 
   return (
     <div className="min-h-screen w-full font-quicksand bg-gray-100">
-      <div className="w-full bg-blue p-2">
+      <div className="w-full bg-blue p-2 md:h-72">
         <Navbar />
       </div>
       <div className="flex justify-center mt-4">
-        <div className="w-full md:w-[80%] lg:w-[60%] mt-[-8%] md:mt-[-12%] p-4">
+        <div className="w-full md:w-[80%] lg:w-[60%]  mt-[-8%] md:mt-[-14%] p-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
             <div
               className="flex gap-2 items-center cursor-pointer"

@@ -20,12 +20,15 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = Cookies.get('accessToken');
-    if (!token) {
-      if (location !== '/' && location !== '/signup')
+    if (token=="" || token == undefined){
+      if (location.pathname !== '/' && location.pathname !== '/signup')
         navigate('/');
-    } else {
-      if (location == '/auth/login')
-        navigate('/viewBlogs')
+    } else {      
+      if (location.pathname == '/'){
+        getUserData();
+        navigate('/viewBlogs');
+      }
+        
     }
   }, [location]);
   
@@ -37,23 +40,19 @@ export function AuthProvider({ children }) {
       })
       .then(({ data }) => {
         console.log(data);
-        // Cookies.set("userName", data.data.user.userName, {
-        //   expires: new Date(Date.now() + 9999999),
-        //   httpOnly: false,
-        // });
+        
         Cookies.set("accessToken", data.data.accessToken, {
           expires: new Date(Date.now() + 9999999),
           httpOnly: false,
         });
-        // Cookies.set("currentUser", data.data.user.id, {
-        //   expires: new Date(Date.now() + 9999999),
-        //   httpOnly: false,
-        // });
+        
         notification.success({ message: "Login Successful!" });
         navigate("/viewBlogs");
-        setUser(data.user);
+        getUserData()
       })
       .catch((err) => {
+        console.log(err);
+        
         notification.error({
           message: err.response.data?.message || "Invalid Credentials!",
         });
@@ -73,7 +72,23 @@ export function AuthProvider({ children }) {
     });
     Cookies.remove("accessToken");
     navigate("/");
+    
   };
+
+  const getUserData = async ()=>{
+     await api
+      .get("/users/profile")
+      .then(({ data }) => {
+           
+        notification.success({ message: "Login Successful!" });
+        navigate("/viewBlogs");
+        setUser(data.data.profile);
+      })
+      .catch((err) => {
+        console.log(err);
+      
+      });
+  }
   const value = {
     user,
     login,

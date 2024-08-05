@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import image from "../assets/login.jpg";
+import image from "../assets/post.png";
 import { IconButton, Tooltip } from "@material-tailwind/react";
 import {  BiSolidTrash } from "react-icons/bi";
 import { notification } from "antd";
@@ -78,7 +78,8 @@ export default function ViewBook() {
               >
                 <div className="w-full md:w-[25%]">
                   <img
-                    src={item.image}
+                  //post image placeholder
+                    src={image}
                     alt="Blog Post"
                     className="w-full h-auto md:h-48 object-cover rounded-md md:rounded-l-md"
                   />
@@ -94,7 +95,7 @@ export default function ViewBook() {
                   <div className="flex justify-between mt-4">
                     <div>
                       <p className="text-xs text-gray-500">Author</p>
-                      <p className="text-brand">{item.author.name}</p>
+                      <p className="text-brand">{item.author.fullName}</p>
                     </div>
                     <p className="text-[#9795A3] text-xs md:text-sm">
                       Posted {item.date}

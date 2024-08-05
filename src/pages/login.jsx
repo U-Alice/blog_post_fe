@@ -12,12 +12,18 @@ export default function Login() {
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false); // State for loading
 
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
+    setLoading(true); 
+    try{
     e.preventDefault();
-    login(data.username, data.password);
+     login(data.username, data.password);
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,7 +81,7 @@ export default function Login() {
                 <AiFillLock className="text-darkb text-lg font-extrabold" />
               }
             />
-            <Button className="w-full" content="Login" type="submit" />
+            <Button className="w-full" content={loading ?  "Loading.." : "Login"} type="submit" />
           </form>
           <div className="flex justify-center gap-2 mt-4">
             <p>Don't have an account?</p>

@@ -8,6 +8,7 @@ const authContextDefaultValues = {
   user: null,
   login: (data) => {},
   logout: () => {},
+  getUserData:()=>{}
 };
 export const AuthContext = createContext(
   authContextDefaultValues
@@ -52,7 +53,6 @@ export function AuthProvider({ children }) {
       })
       .catch((err) => {
         console.log(err);
-        
         notification.error({
           message: err.response.data?.message || "Invalid Credentials!",
         });
@@ -79,20 +79,17 @@ export function AuthProvider({ children }) {
      await api
       .get("/users/profile")
       .then(({ data }) => {
-           
-        notification.success({ message: "Login Successful!" });
-        navigate("/viewBlogs");
-        setUser(data.data.profile);
+          setUser(data.data.profile);
       })
       .catch((err) => {
         console.log(err);
-      
       });
   }
   const value = {
     user,
     login,
     logout,
+    getUserData
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

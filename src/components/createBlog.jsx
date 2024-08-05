@@ -11,7 +11,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Cookies from "js-cookie";
 import api from "../utils/api";
-export default function CreateBlog() {
+export default function CreateBlog({getData}) {
   const { opened, open, close } = useCustomDisclosure();
   const [data, setData] = useState({
     title: "",
@@ -40,7 +40,7 @@ export default function CreateBlog() {
       console.log(response);
       setData({title: "", content: ""})
       notification.success({ message: "Blog Created successfully!" });
-      navigate("/viewBlogs");
+      getData();
     } catch (err) {
       console.log(err);
       notification.error({

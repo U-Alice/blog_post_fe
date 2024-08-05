@@ -13,9 +13,13 @@ import Navbar from "../components/nav";
 export default function ViewBook() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const[isLoading, setIsLoading] = useState(false);
 
   const getData = async () => {
-    const response = await api.get("posts");  
+    
+      setIsLoading(true)
+      const response = await api.get("posts"); 
+      setIsLoading(false)
     setData(response.data.data);
   };
 
@@ -39,7 +43,7 @@ export default function ViewBook() {
     };
 
     return (
-      <Tooltip content="Delete Book">
+      <Tooltip content="Delete Blog">
         <IconButton variant="text">
           <BiSolidTrash
             className="h-4 w-4 text-red-400"
@@ -67,10 +71,11 @@ export default function ViewBook() {
               <p className="font-bold text-xl md:text-2xl">QtBlog</p>
             </div>
             <div>
-              <CreateBlog />
+              <CreateBlog getData={getData}/>
             </div>
           </div>
           <div className="bg-white rounded-lg flex flex-col w-full mt-6 md:mt-10 p-4 gap-4 shadow-md">
+            {/* {isLoading && "Loading...."} */}
             {data?.map((item, index) => (
               <div
                 key={index}
@@ -86,19 +91,19 @@ export default function ViewBook() {
                 </div>
                 <div className="flex flex-col justify-between py-4 w-full">
                   <h3
-                    className="font-bold text-lg md:text-xl"
+                    className="font-bold text-lg md:text-xl hover:cursor-pointer"
                     onClick={() => navigate(`/blog/${item.id}`)}
                   >
                     {item.title}
                   </h3>
-                  <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                  <div dangerouslySetInnerHTML={{ __html: item.content.slice(0,150) + "...."  }}></div>
                   <div className="flex justify-between mt-4">
                     <div>
                       <p className="text-xs text-gray-500">Author</p>
                       <p className="text-brand">{item.author.fullName}</p>
                     </div>
                     <p className="text-[#9795A3] text-xs md:text-sm">
-                      Posted {item.date}
+                      Posted {item.createdAt}
                     </p>
                   </div>
                   <div className="flex justify-end mt-2">

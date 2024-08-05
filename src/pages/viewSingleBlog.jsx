@@ -75,7 +75,7 @@ export default function ViewSingleBlog() {
                 <p className="text-xs text-gray-500">Author</p>
                 <p className="text-brand">{blog.author?.fullName}</p>
               </div>
-              <p className="text-sm text-gray-400">Posted {blog.date}</p>
+              <p className="text-sm text-gray-400">Posted {blog.createdAt}</p>
             </div>
             <div
               className="mt-4 text-gray-700"

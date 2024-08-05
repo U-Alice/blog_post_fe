@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useAuth from "../context/authContext";
 import logo from "../assets/logo.png";
 import { BiUserCircle } from "react-icons/bi";
 
 const Navbar = () => {
-  const { logout } = useAuth();
+  const { logout, user, getUserData} = useAuth();
 
+  useEffect(()=>{
+    console.log(user);
+    getUserData()
+    
+  }, [])
   const handleLogout = () => {
     logout();
     // Redirect to the login page 
@@ -29,9 +34,9 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex items-center space-x-2 md:space-x-4">
-          <div className="cursor-pointer hover:bg-blue-gray-50 hover:text-blue-gray-900 rounded-lg px-2 py-1 transition font-bold flex items-center">
+          <div className="cursor-pointer hover:bg-blue-gray-50 hover:text-blue-gray-900 rounded-lg px-2 py-1 transition font-bold flex items-center gap-2">
             <BiUserCircle/>
-            Alice
+            {user?.firstName}
           </div>
           <button
             onClick={handleLogout}

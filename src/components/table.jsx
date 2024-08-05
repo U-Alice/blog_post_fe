@@ -1,9 +1,7 @@
-  import React from "react";
-  import CreateBook from "./createBlog";
+import React from "react";
+import CreateBook from "./createBlog";
 import { Pagination } from "./pagination";
-import { BiPencil, BiSolidTrash } from "react-icons/bi";
-import {IconButton, Tooltip} from "@material-tailwind/react";
-import UpdateBook from "./updateBook";
+
   const Table = ({
     data,
     headers,

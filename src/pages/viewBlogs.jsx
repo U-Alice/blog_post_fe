@@ -5,10 +5,11 @@ import Sidebar from "../components/nav";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { IconButton, Tooltip } from "@material-tailwind/react";
-import { BiSolidTrash } from "react-icons/bi";
+import { BiSolidPencil, BiSolidTrash } from "react-icons/bi";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import CreateBlog from "../components/createBlog";
+import UpdateBlog from "../components/updateBlog";
 
 export default function ViewBook() {
   const [data, setData] = useState([]);
@@ -101,12 +102,11 @@ export default function ViewBook() {
               <CreateBlog />
             </div>
           </div>
-          <div className="bg-white rounded-lg flex flex-col w-full mt-6 md:mt-10 p-4 gap-4 shadow-md" >
+          <div className="bg-white rounded-lg flex flex-col w-full mt-6 md:mt-10 p-4 gap-4 shadow-md">
             {data.map((item, index) => (
               <div
                 key={index}
                 className="flex flex-col md:flex-row w-full gap-4 md:gap-6 bg-white border-b pb-4 border-[#F2F2F7]"
-                onClick={()=> navigate(`/blog/${item.id}`)}
               >
                 <div className="w-full md:w-[25%]">
                   <img
@@ -116,7 +116,12 @@ export default function ViewBook() {
                   />
                 </div>
                 <div className="flex flex-col justify-between py-4 w-full">
-                  <h3 className="font-bold text-lg md:text-xl">{item.title}</h3>
+                  <h3
+                    className="font-bold text-lg md:text-xl"
+                    onClick={() => navigate(`/blog/${item.id}`)}
+                  >
+                    {item.title}
+                  </h3>
                   <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
                   <div className="flex justify-between mt-4">
                     <div>
@@ -128,6 +133,7 @@ export default function ViewBook() {
                     </p>
                   </div>
                   <div className="flex justify-end mt-2">
+                    <UpdateBlog blog={item} />
                     {deleteRecord(item.id)}
                   </div>
                 </div>

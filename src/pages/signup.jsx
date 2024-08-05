@@ -100,6 +100,7 @@ export default function SignUp() {
               label="Password"
               name="password"
               required
+              type={"password"}
               handleChange={(e) =>
                 setData({ ...data, password: e.target.value })
               }

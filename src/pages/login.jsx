@@ -64,6 +64,7 @@ export default function Login() {
             <Wrapper
               label="Password"
               name="password"
+              type={"password"}
               required
               handleChange={(e) =>
                 setData({ ...data, password: e.target.value })

@@ -24,8 +24,8 @@ export function AuthProvider({ children }) {
       if (location !== '/' && location !== '/signup')
         navigate('/');
     } else {
-      if (location == '/auth/login' || location == '/dashboard/messageHandler')
-        navigate('/')
+      if (location == '/auth/login')
+        navigate('/viewBlogs')
     }
   }, [location]);
   

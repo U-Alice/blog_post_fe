@@ -5,8 +5,8 @@ import Cookies from 'js-cookie';
 
 // Create an Axios instance
 const api = axios.create({
-  // baseURL: 'https://blog-post-be.onrender.com/api/v1',
-  baseURL: 'http://localhost:9000/api/v1', // Base URL for your API
+  baseURL: 'https://blog-post-be.onrender.com/api/v1',
+  // baseURL: 'http://localhost:9000/api/v1', // Base URL for your API
    // Base URL for your API
   headers: {
     'Content-Type': 'application/json',

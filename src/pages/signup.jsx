@@ -2,16 +2,10 @@ import image from "../assets/rectangle.png";
 import logo from "../assets/logo.png";
 import Button from "../components/button";
 import Wrapper from "../components/wrapper";
-import { AiOutlineUser } from "react-icons/ai";
-import { ReactSVG } from "react-svg";
-import Line from "../assets/svg/line.svg";
-import Google from "../assets/svg/google-icon.svg";
-import Facebook from "../assets/svg/facebook-icon.svg";
-import ExternalSignIn from "../components/externalSignin";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import { notification } from "antd";
+import api from "../utils/api";
 
 export default function SignUp() {
     const Navigate = useNavigate("");
@@ -38,8 +32,8 @@ export default function SignUp() {
         email,
         password,
     ) {
-        const api = await axios
-            .post("http://localhost:9000/api/v1/author/register", {
+       await api
+            .post("author/register", {
                 firstName,
                 lastName,
                 email,

@@ -2,30 +2,22 @@ import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import image from "../assets/login.jpg";
 import Sidebar from "../components/nav";
-import axios from "axios";
 import Cookies from "js-cookie";
 import { IconButton, Tooltip } from "@material-tailwind/react";
-import { BiSolidPencil, BiSolidTrash } from "react-icons/bi";
+import {  BiSolidTrash } from "react-icons/bi";
 import { notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import CreateBlog from "../components/createBlog";
 import UpdateBlog from "../components/updateBlog";
+import api from "../utils/api";
 
 export default function ViewBook() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   const getData = async () => {
-    const api = await fetch("http://localhost:9000/api/v1/posts", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + Cookies.get("accessToken"),
-      },
-    });
-    let data = await api.json();
-    let blogs = await data.data;
-    setData(blogs);
-    console.log(blogs);
+    const response = await api.get("posts");  
+    setData(response.data.data);
   };
 
   useEffect(() => {
@@ -34,21 +26,13 @@ export default function ViewBook() {
 
   const deleteRecord = (id) => {
     const sendRequest = async () => {
-      const api = await axios
-        .delete(
-          `http://localhost:9000/api/v1/posts/${id}`,
-          {
-            headers: {
-              Authorization: "Bearer " + Cookies.get("accessToken"),
-            },
-          }
-        )
+       await api.delete(
+          `posts/${id}`)
         .then(({ data }) => {
           notification.success({ message: data.message });
           getData();
         })
         .catch((err) => {
-          console.log(err);
           notification.error({
             message: "Error Occurred!",
           });

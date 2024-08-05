@@ -2,32 +2,21 @@ import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import image from "../assets/post.png";
 import Sidebar from "../components/nav";
-import axios from "axios";
-import Cookies from "js-cookie";
 import { IconButton, Tooltip } from "@material-tailwind/react";
 import { BiArrowBack, BiSolidTrash } from "react-icons/bi";
 import { notification } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../components/button";
 import Wrapper from "../components/wrapper";
+import api from "../utils/api";
 
 export default function ViewSingleBlog() {
   const [blog, setBlog] = useState([]);
   const navigate = useNavigate();
   const {id} = useParams();
   const getData = async () => {
-    const api = await fetch(
-      `http://localhost:9000/api/v1/posts/id/${id}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + Cookies.get("accessToken"),
-        },
-      }
-    );
-    let data = await api.json();  
-    console.log(data);
-
+    const response = await api.get(`posts/id/${id}`);
+    let data = await response.json();  
     let blog = await data.data;
     setBlog(blog);
   };

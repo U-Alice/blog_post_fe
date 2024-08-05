@@ -6,11 +6,11 @@ import { Modal } from "@mantine/core";
 import useCustomDisclosure from "../hooks/useCustomDisclosure";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { notification } from "antd";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Cookies from "js-cookie";
+import api from "../utils/api";
 export default function CreateBlog() {
   const { opened, open, close } = useCustomDisclosure();
   const [data, setData] = useState({
@@ -30,16 +30,11 @@ export default function CreateBlog() {
 
   async function sendRequest(title, content) {
     try {
-      const response = await axios.post(
-        "http://localhost:9000/api/v1/posts",
+      const response = await api.post(
+        "posts",
         {
           title,
           content,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + Cookies.get("accessToken"),
-          },
         }
       );
       console.log(response);

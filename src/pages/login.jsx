@@ -3,17 +3,11 @@ import logo from "../assets/logo.png";
 import Button from "../components/button";
 import Wrapper from "../components/wrapper";
 import { AiOutlineUser, AiOutlineMail, AiFillLock } from "react-icons/ai";
-import { ReactSVG } from "react-svg";
 import Line from "../assets/svg/line.svg";
-import Google from "../assets/svg/google-icon.svg";
-import Facebook from "../assets/svg/facebook-icon.svg";
-import ExternalSignIn from "../components/externalSignin";
 import LoginBg from "../assets/svg/login-bg.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import Cookies from "js-cookie";
-import axios from "axios";
-import { notification } from "antd";
+
 import useAuth from "../context/authContext";
 
 export default function Login() {

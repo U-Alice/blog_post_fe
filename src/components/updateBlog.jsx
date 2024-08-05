@@ -5,7 +5,6 @@ import { ReactSVG } from "react-svg";
 import { BiSolidPencil } from "react-icons/bi";
 import { IconButton, Tooltip } from "@material-tailwind/react";
 import { notification } from "antd";
-import axios from "axios";
 import Cookies from "js-cookie";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -14,6 +13,7 @@ import Line from "../assets/svg/small-line.svg";
 import Wrapper from "./wrapper";
 import Button from "./button";
 import useCustomDisclosure from "../hooks/useCustomDisclosure";
+import api from "../utils/api";
 
 export default function UpdateBlog({ blog }) {
   const { opened, open, close } = useCustomDisclosure();
@@ -32,8 +32,8 @@ export default function UpdateBlog({ blog }) {
 
   async function sendRequest(title, content) {
     try {
-      const response = await axios.put(
-        `http://localhost:9000/api/v1/posts/${blog.id}`,
+      const response = await api.put(
+        `posts/${blog.id}`,
         { title, content },
         {
           headers: {

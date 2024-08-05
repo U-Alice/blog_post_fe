@@ -1,9 +1,9 @@
 import React, { createContext, ReactNode, useContext, useEffect } from "react";
 import useStateCallback from "../hooks/useStateCallback";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios';
 import {notification} from 'antd';
 import Cookies from "js-cookie";
+import api from "../utils/api";
 const authContextDefaultValues = {
   user: null,
   login: (data) => {},
@@ -20,18 +20,18 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = Cookies.get('accessToken');
-    // if (!token) {
-    //   if (location !== '/' && location !== '/signup')
-    //     navigate('/');
-    // } else {
-    //   if (location == '/auth/login' || location == '/dashboard/messageHandler')
-    //     navigate('/')
-    // }
+    if (!token) {
+      if (location !== '/' && location !== '/signup')
+        navigate('/');
+    } else {
+      if (location == '/auth/login' || location == '/dashboard/messageHandler')
+        navigate('/')
+    }
   }, [location]);
   
   const login = async (email, password) => {
-    const api = axios
-      .post("http://localhost:9000/api/v1/auth/login", {
+    await api
+      .post("auth/login", {
         username: email,
         password: password,
       })

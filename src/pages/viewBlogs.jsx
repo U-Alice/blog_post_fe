@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import image from "../assets/login.jpg";
-import Sidebar from "../components/nav";
-import Cookies from "js-cookie";
 import { IconButton, Tooltip } from "@material-tailwind/react";
 import {  BiSolidTrash } from "react-icons/bi";
 import { notification } from "antd";
@@ -10,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import CreateBlog from "../components/createBlog";
 import UpdateBlog from "../components/updateBlog";
 import api from "../utils/api";
+import Navbar from "../components/nav";
 
 export default function ViewBook() {
   const [data, setData] = useState([]);
@@ -51,25 +50,10 @@ export default function ViewBook() {
     );
   };
 
-  const posts = [
-    {
-      title:
-        "The Akagera national park of Rwanda is one of this year’s most visited parks in East Africa",
-      author: {
-        name: "UMUGWANEZA Alice",
-      },
-      content:
-        "To set up and configure their livestreaming equipment for optimal results.",
-      date: "12-02-2020",
-      image: image,
-    },
-    // Add more posts as needed
-  ];
-
   return (
     <div className="min-h-screen w-full font-quicksand bg-gray-100">
       <div className="w-full bg-blue p-2 h-32 md:h-72 ">
-        <Sidebar />
+        <Navbar />
       </div>
       <div className="flex flex-col items-center mt-4">
         <div className="w-full md:w-[80%] lg:w-[60%] mt-[-8%] md:mt-[-12%] px-4">
@@ -87,7 +71,7 @@ export default function ViewBook() {
             </div>
           </div>
           <div className="bg-white rounded-lg flex flex-col w-full mt-6 md:mt-10 p-4 gap-4 shadow-md">
-            {data.map((item, index) => (
+            {data?.map((item, index) => (
               <div
                 key={index}
                 className="flex flex-col md:flex-row w-full gap-4 md:gap-6 bg-white border-b pb-4 border-[#F2F2F7]"

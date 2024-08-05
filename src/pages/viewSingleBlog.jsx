@@ -1,33 +1,54 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import image from "../assets/post.png";
-import Sidebar from "../components/nav";
-import { IconButton, Tooltip } from "@material-tailwind/react";
-import { BiArrowBack, BiSolidTrash } from "react-icons/bi";
-import { notification } from "antd";
+import { BiArrowBack } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../components/button";
 import Wrapper from "../components/wrapper";
 import api from "../utils/api";
+import Navbar from "../components/nav";
 
 export default function ViewSingleBlog() {
-  const [blog, setBlog] = useState([]);
+  const [blog, setBlog] = useState({});
+  const [comment, setComment] = useState("");
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
+
   const getData = async () => {
-    const response = await api.get(`posts/id/${id}`);
-    let data = await response.json();  
-    let blog = await data.data;
-    setBlog(blog);
+    try {
+      const response = await api.get(`posts/id/${id}`);
+      
+      setBlog(response.data.data);
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+    }
+  };
+
+  const handleCommentSubmit = async () => {
+    try {
+      const response = await api.post(`posts/${id}/comments`, {
+        content: comment
+  
+      });
+      const newComment = response.data.data;
+      setBlog((prevBlog) => ({
+        ...prevBlog,
+        comments: [...prevBlog?.comments, newComment],
+      }));
+      setComment("");
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
   };
 
   useEffect(() => {
     getData();
   }, []);
+
   return (
     <div className="min-h-screen w-full font-quicksand bg-gray-100">
       <div className="w-full bg-blue p-2">
-        <Sidebar />
+        <Navbar />
       </div>
       <div className="flex justify-center mt-4">
         <div className="w-full md:w-[80%] lg:w-[60%] mt-[-8%] md:mt-[-12%] p-4">
@@ -56,9 +77,10 @@ export default function ViewSingleBlog() {
               </div>
               <p className="text-sm text-gray-400">Posted {blog.date}</p>
             </div>
-            <div className="mt-4 text-gray-700 " dangerouslySetInnerHTML={{ __html: blog.content }}>
-              {/* <div </div> */}
-            </div>
+            <div
+              className="mt-4 text-gray-700"
+              dangerouslySetInnerHTML={{ __html: blog.content }}
+            />
           </div>
           <div className="mt-6">
             <h3 className="font-bold text-xl mb-4">Discussions</h3>
@@ -71,9 +93,7 @@ export default function ViewSingleBlog() {
                       alt="User"
                       className="h-8 w-8 rounded-full"
                     />
-                    <p className="ml-2 text-sm font-semibold">
-                      {item.author.name}
-                    </p>
+                    <p className="ml-2 text-sm font-semibold">{item.author.name}</p>
                     <p className="ml-auto text-xs text-gray-400">{item.date}</p>
                   </div>
                   <p className="text-sm text-gray-600 pl-10 bg-gray-50 p-4 rounded-md">
@@ -83,10 +103,18 @@ export default function ViewSingleBlog() {
               ))}
               <div className="flex items-center gap-2 mt-4">
                 <img src={image} className="h-8 w-8 rounded-full" alt="" />
-                <Wrapper placeholder={"What are your thoughts?"} />
+                <Wrapper
+                  placeholder={"What are your thoughts?"}
+                  value={comment}
+                  handleChange={(e) =>setComment(e.target.value)}
+                />
               </div>
               <div className="flex justify-end mt-2">
-                <Button content={"Submit"} className={"p-2 h-fit w-fit"} />
+                <Button
+                  content={"Submit"}
+                  className={"p-2 h-fit w-fit"}
+                  onClick={handleCommentSubmit}
+                />
               </div>
             </div>
           </div>

@@ -34,7 +34,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex items-center space-x-2 md:space-x-4">
-          <div className="cursor-pointer hover:bg-blue-gray-50 hover:text-blue-gray-900 rounded-lg px-2 py-1 transition font-bold flex items-center gap-2">
+          <div className="cursor-pointer hover:bg-blue-gray-50 hover:text-blue-gray-900 rounded-lg px-2 py-1 transition font-bold flex items-center gap-2 sm:hidden">
             <BiUserCircle/>
             {user?.firstName}
           </div>

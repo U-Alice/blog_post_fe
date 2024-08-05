@@ -76,7 +76,7 @@ export default function ViewBook() {
           </div>
           <div className="bg-white rounded-lg flex flex-col w-full mt-6 md:mt-10 p-4 gap-4 shadow-md">
             {/* {isLoading && "Loading...."} */}
-            {data?.map((item, index) => (
+            { isLoading?  "Loading" :  data?.map((item, index) => (
               <div
                 key={index}
                 className="flex flex-col md:flex-row w-full gap-4 md:gap-6 bg-white border-b pb-4 border-[#F2F2F7]"
